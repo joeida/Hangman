@@ -1,0 +1,17 @@
+body {
+
+}
+
+.page-header {
+  text-align: center;
+}
+.page-header h1 {
+  font-family: 'Candal', sans-serif;
+  /* color: yellow; */
+  font-size: 50px;
+  font-weight: bold;
+}
+.jumbotron .row .col-sm-12 img {
+  height: 33px;
+  width: 33px;
+}
