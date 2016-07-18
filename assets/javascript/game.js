@@ -1,6 +1,6 @@
 var currentGuessedWordDisplay = '';
 var currentGuessedWord = '';
-var holder = '';
+var removeSpace = '';
 
 var hangman = {
     listWords: ['pacman', 'tetris', 'war', 'donkey kong', 'centipede'],
@@ -61,13 +61,20 @@ var hangman = {
 
 };
 
+// Output results to html
+var output = {
+    displayResults: function () {
+        document.querySelector("#winsOutput").innerHTML = hangman.numberWin;
+        document.querySelector("#lossesOutput").innerHTML = hangman.numberLoss;
+        document.querySelector("#currentWordOutput").innerHTML = currentGuessedWordDisplay;
+        document.querySelector("#guessesRemainingOutput").innerHTML = hangman.numberGuessesRemaining;
+        document.querySelector("#lettersGuessedOutput").innerHTML = hangman.listLettersGuessed;
+    }
+};
+
 // Initialize script and output to html
 hangman.resetGame();
-document.querySelector("#winsOutput").innerHTML = hangman.numberWin;
-document.querySelector("#lossesOutput").innerHTML = hangman.numberLoss;
-document.querySelector("#currentWordOutput").innerHTML = currentGuessedWordDisplay;
-document.querySelector("#guessesRemainingOutput").innerHTML = hangman.numberGuessesRemaining;
-document.querySelector("#lettersGuessedOutput").innerHTML = hangman.listLettersGuessed;
+output.displayResults();
 
 document.onkeyup = function(event) {
     // Make Word Lower Case
@@ -76,21 +83,21 @@ document.onkeyup = function(event) {
     // Get Current Guessed Word
     currentGuessedWordDisplay = hangman.searchWord(userGuess);
     if (currentGuessedWordDisplay.indexOf('$') !== -1) {
-        holder = currentGuessedWordDisplay.replace(/\s/g,'');
+        removeSpace = currentGuessedWordDisplay.replace(/\s/g,'');
         currentGuessedWordDisplay = currentGuessedWordDisplay.replace('$', '&nbsp;');
-        currentGuessedWord = holder.replace('$', ' ');
+        currentGuessedWord = removeSpace.replace('$', ' ');
     } else {
         currentGuessedWord = currentGuessedWordDisplay.replace(/\s/g,'');
     }
 
-    // Check if word guessed correctly
+    // Check if word guessed correctly within number of trys allowed, then reset if true
     if (currentGuessedWord === hangman.currentWord) {
         console.log(hangman.successText);
         hangman.numberWin++;
         hangman.resetGame();
     } 
 
-    // Check if word guess failed and guesses remaining is 0
+    // Check if word guess failed and guesses remaining is 0, then reset if true
     if (currentGuessedWord !== hangman.currentWord && hangman.numberGuessesRemaining === 0) {
         console.log(hangman.failText);
         hangman.numberLoss++;
@@ -98,11 +105,7 @@ document.onkeyup = function(event) {
     }
 
     // Output results to html
-    document.querySelector("#winsOutput").innerHTML = hangman.numberWin;
-    document.querySelector("#lossesOutput").innerHTML = hangman.numberLoss;
-    document.querySelector("#currentWordOutput").innerHTML = currentGuessedWordDisplay;
-    document.querySelector("#guessesRemainingOutput").innerHTML = hangman.numberGuessesRemaining;
-    document.querySelector("#lettersGuessedOutput").innerHTML = hangman.listLettersGuessed;
+    output.displayResults();
 
 }
 
