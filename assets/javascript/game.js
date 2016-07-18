@@ -1,103 +1,110 @@
-// Text - Press any key to get started - unhide, then hide when game has started
-var currentWord = "test";
+var currentGuessedWordDisplay = '';
 var currentGuessedWord = '';
-var numberWins = 0;
-var numberLosses = 0;
-var startText = "Press any key to get started!";
-var successOutput = "Congratulations!  You Guessed Correctly!";
-var numberGuessesRemaining = 10;
-var numberLettersGuessed = 0;
-var listLettersInWord = [];
-var listLettersGuessed = [];
-var listLettersGuessedCorrect = [];
+var holder = '';
 
 var hangman = {
+    listWords: ['pacman', 'tetris', 'war', 'donkey kong', 'centipede'],
+    currentWord: '',
+    currentGuess: '',
+    numberWin: 0,
+    numberLoss: 0,
+    startText: "Press any key to get started!",
+    successText: "Congratulations!  You Guessed Correctly!",
+    failText: "You failed to guess the word correctly.",
+    numberGuessesRemaining: 10,
+    listGuess: [],
+    listLettersGuessed: [],
 
-    // Parse Word and put letters in List
-    convertWordToList: function(currentWord) {
-        for (var i = 0; i < currentWord.length; i++) {
-            listLettersInWord.push(currentWord[i]);
-        }
-    },
-
-    // Search for letter in list of correctly guessed letter
-    searchLetterInGuessedList: function(letter) {
-        var existing = '';
-        for (var iii = 0; iii < listLettersGuessed.length; iii++) {
-            if (letter === listLettersGuessed[iii]) {
-                existing = letter;
-            }
-        }
-        return existing;
-    },
-
-
-    // Search for letter in list of correctly guessed letter
-    searchLetterInGuessedCorrectList: function(letter) {
-        var existing = '';
-        for (var ii = 0; ii < listLettersGuessedCorrect.length; ii++) {
-            if (letter === listLettersGuessedCorrect[ii]) {
-                existing = letter;
-            }
-        }
-        return existing;
-    },
-
-
-    // Search for letter in Word, get List Index, and add to lettered guessed list
-    searchLetterInWord: function(userGuess) {
-        var guessedWord = ''
-        for (var i = 0; i < listLettersInWord.length; i++) {
-            var existingCorrectLetter = this.searchLetterInGuessedCorrectList(listLettersInWord[i]);
-            var existingLetter = this.searchLetterInGuessedList(userGuess);
-            if (existingCorrectLetter === listLettersInWord[i]) {
-                guessedWord += existingCorrectLetter;
-            } else if (userGuess === listLettersInWord[i]) {
-                guessedWord += userGuess;
-                listLettersGuessedCorrect.push(userGuess);
-                listLettersGuessed.push(userGuess);
-            } else if (userGuess === existingLetter) {
-                guessedWord += ' '
-                continue;
+    // Choose Word
+    chooseWord: function() {
+        var index = Math.floor(Math.random() * this.listWords.length);
+        this.currentWord = this.listWords[index];
+        for (var i = 0; i < this.currentWord.length; i++) {
+            if (this.currentWord[i] === ' ') {
+                this.listGuess.push('$');
             } else {
-                guessedWord += ' '
-                listLettersGuessed.push(userGuess);
+                this.listGuess.push('_');
             }
         }
-        return guessedWord;
+    },
+
+    // Search Current Word for letter and return update Current Guess
+    searchWord: function(userGuess) {
+        for (var ii = 0; ii < this.currentWord.length; ii++) {
+            if (userGuess === this.currentWord.charAt(ii)) {
+                this.listGuess[ii] = userGuess;
+            }
+        }
+        this.numberGuessesRemaining--;
+        if (this.listLettersGuessed.indexOf(userGuess) === -1) {
+            this.listLettersGuessed.push(userGuess);
+        } else {
+            this.numberGuessesRemaining++
+        }
+        this.currentGuess = this.listGuess.join(' ');
+        return this.currentGuess;
+    },
+
+    // Reset counters and choose another word
+    resetGame: function() {
+        this.currentWord = '';
+        this.currentGuess = '';
+        this.numberGuessesRemaining = 10;
+        this.listGuess = [];
+        this.listLettersGuessed = [];
+        this.chooseWord();
+        currentGuessedWordDisplay = this.listGuess.join(' ');
+        if (currentGuessedWordDisplay.indexOf('$') !== -1) {
+            currentGuessedWordDisplay = currentGuessedWordDisplay.replace('$', '&nbsp;');
+        }
     }
 
 };
 
-hangman.convertWordToList(currentWord);
+// Initialize script and output to html
+hangman.resetGame();
+document.querySelector("#winsOutput").innerHTML = hangman.numberWin;
+document.querySelector("#lossesOutput").innerHTML = hangman.numberLoss;
+document.querySelector("#currentWordOutput").innerHTML = currentGuessedWordDisplay;
+document.querySelector("#guessesRemainingOutput").innerHTML = hangman.numberGuessesRemaining;
+document.querySelector("#lettersGuessedOutput").innerHTML = hangman.listLettersGuessed;
+
 document.onkeyup = function(event) {
     // Make Word Lower Case
     var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
-    currentGuessedWord = hangman.searchLetterInWord(userGuess);
-    console.log(listLettersInWord);
-    console.log(currentGuessedWord);
-    console.log(listLettersGuessedCorrect);
-    console.log(listLettersGuessed);
 
-    var winH = document.getElementById('winsOutput');
-    winH.innerHTML = '';
-    var winP = document.createElement('p');
-    winP.textContent = currentGuessedWord;
-    winH.appendChild(winP);
-
-    if (currentGuessedWord === currentWord) {
-        console.log(successOutput);
+    // Get Current Guessed Word
+    currentGuessedWordDisplay = hangman.searchWord(userGuess);
+    if (currentGuessedWordDisplay.indexOf('$') !== -1) {
+        holder = currentGuessedWordDisplay.replace(/\s/g,'');
+        currentGuessedWordDisplay = currentGuessedWordDisplay.replace('$', '&nbsp;');
+        currentGuessedWord = holder.replace('$', ' ');
+    } else {
+        currentGuessedWord = currentGuessedWordDisplay.replace(/\s/g,'');
     }
+
+    // Check if word guessed correctly
+    if (currentGuessedWord === hangman.currentWord) {
+        console.log(hangman.successText);
+        hangman.numberWin++;
+        hangman.resetGame();
+    } 
+
+    // Check if word guess failed and guesses remaining is 0
+    if (currentGuessedWord !== hangman.currentWord && hangman.numberGuessesRemaining === 0) {
+        console.log(hangman.failText);
+        hangman.numberLoss++;
+        hangman.resetGame();
+    }
+
+    // Output results to html
+    document.querySelector("#winsOutput").innerHTML = hangman.numberWin;
+    document.querySelector("#lossesOutput").innerHTML = hangman.numberLoss;
+    document.querySelector("#currentWordOutput").innerHTML = currentGuessedWordDisplay;
+    document.querySelector("#guessesRemainingOutput").innerHTML = hangman.numberGuessesRemaining;
+    document.querySelector("#lettersGuessedOutput").innerHTML = hangman.listLettersGuessed;
+
 }
-//Output success if guessed correctly
-// Increment/decrement Wins
-// Increment/decrement Losses
 
 // Photo for Guessed Output
 // Optional Sound for Guessed Output
-
-// Reset
-
-/* Optional Work Below */
-// Word randomizer
-// Automatically pick new word for next game
