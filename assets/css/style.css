@@ -20,10 +20,14 @@ body {
   margin: 10px;
 }
 #winPhoto img {
-  height: 200px;
-  width: 200px;
+  height: 400px;
+  width: 400px;
 }
-#lossPhoto img {
-  height: 200px;
-  width: 200px;
+#lossText {
+  font-size: 30px;
+  color: red;
+}
+#winText {
+  font-size: 30px;
+  color: yellow;
 }

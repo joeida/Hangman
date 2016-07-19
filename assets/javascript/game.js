@@ -96,25 +96,26 @@ var output = {
         for (var iii = 9; iii > 0; iii--) {
             $('.active' + iii).attr('src', 'assets/images/Hangman-Game-red.png');
         }
+        $('#lossText').css('display', 'inline-block');
+        $('#lossText').html(hangman.failText);
     },
 
     // Display Hangman progress default
     displayDefault: function() {
         $('#winPhoto').css('display', 'none');
-        $('#lossPhoto').css('display', 'none');
+        $('#winText').css('display', 'none');
+        $('#lossText').css('display', 'none');
+        $('.row .col-sm-12 img').css('display', 'inline-block');
         $('.default').attr('src', 'assets/images/cloud.png');
     },
 
     // Display winning photo and text
     displayWin: function() {
         $('.row .col-sm-12 img').css('display', 'none');
-        $('#winPhoto').css('display', 'block');
-    },
-
-    // Display losing photo and text
-    displayLoss: function() {
-        $('.row .col-sm-12 img').css('display', 'none');
-        $('#lossPhoto').css('display', 'block');
+        $('#winPhoto').css('display', 'inline-block');
+        $('#winText').css('display', 'inline-block');
+        $('#winPhoto').html('<img src="assets/images/' + hangman.currentWord + '.png">');
+        $('#winText').html(hangman.successText);
     }
 
 };
@@ -141,15 +142,13 @@ document.onkeyup = function(event) {
     if (currentGuessedWord === hangman.currentWord) {
         hangman.numberWin++;
         hangman.oldWord = hangman.currentWord
-        hangman.resetGame();
-        output.displayDefault();
+        output.displayWin();
     } 
 
     // Check if word guess failed and guesses remaining is 0, then reset if true
     if (currentGuessedWord !== hangman.currentWord && hangman.numberGuessesRemaining === 0) {
         hangman.numberLoss++;
         hangman.oldWord = hangman.currentWord
-        hangman.resetGame();
         output.displayFail();
     }
 
@@ -179,3 +178,13 @@ document.onkeyup = function(event) {
     output.displayResults();
 
 }
+
+// Play Again
+$(document).ready(function() {
+    $('#play-again').on('click', function() {
+        hangman.resetGame();
+        output.displayDefault();
+        output.displayResults();
+    });
+});
+
