@@ -14,7 +14,6 @@ var hangman = {
         'centipede': '../images/centipede.jpg',
         'space invaders': '../images/space.jpg'
     },
-    lossPicture: '',
     currentWord: '',
     currentGuess: '',
     oldWord: '',
@@ -29,10 +28,14 @@ var hangman = {
 
     // Choose Word randomly and do not repeat the last word
     chooseWord: function() {
+
+        // Randomly choose word until it is not same as last word
         do {
         var index = Math.floor(Math.random() * this.listWords.length);
         this.currentWord = this.listWords[index];
         } while (this.currentWord === this.oldWord);
+
+        // Push blank values onto guessed word list as a placeholder
         for (var i = 0; i < this.currentWord.length; i++) {
             if (this.currentWord[i] === ' ') {
                 this.listGuess.push('$');
@@ -90,7 +93,7 @@ var hangman = {
 
 // Output results to html
 var output = {
-    // Display numbered results to html
+    // Display game statistical results
     displayResults: function() {
         $('#winsOutput').html(hangman.numberWin);
         $('#lossesOutput').html(hangman.numberLoss);
@@ -99,12 +102,12 @@ var output = {
         $('#lettersGuessedOutput').html(hangman.listLettersGuessed);
     },
 
-    // Display Hangman progress
+    // Display Hangman progressive picture
     displayActive: function(number) {
         $('.active' + number).attr('src', 'assets/images/Hangman-Game-grey.png');
     },
 
-    // Display Hangman when fail
+    // Display Hangman failed picture and text
     displayFail: function() {
         for (var iii = 9; iii > 0; iii--) {
             $('.active' + iii).attr('src', 'assets/images/Hangman-Game-red.png');
@@ -113,7 +116,7 @@ var output = {
         $('#lossText').html(hangman.failText);
     },
 
-    // Display Hangman progress default
+    // Display Hangman default progress picture
     displayDefault: function() {
         $('#winPhoto').css('display', 'none');
         $('#winText').css('display', 'none');
