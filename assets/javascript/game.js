@@ -3,9 +3,21 @@ var currentGuessedWord = '';
 var removeSpace = '';
 
 var hangman = {
-    listWords: ['pacman', 'tetris', 'war', 'donkey kong', 'centipede'],
+    listWords: ['pacman', 'tetris', 'galaga', 'frogger', 'mario bros', 'donkey kong', 'centipede', 'space invaders'],
+    winPictures: {
+        'pacman': '../images/pacman.jpg',
+        'tetris': '../images/tetris.jpg',
+        'galaga': '../images/galaga.jpg',
+        'frogger': '../images/frogger.jpg',
+        'mario bros': '../images/mario.png',
+        'donkey kong': '../images/kong.jpg',
+        'centipede': '../images/centipede.jpg',
+        'space invaders': '../images/space.jpg'
+    },
+    lossPicture: '',
     currentWord: '',
     currentGuess: '',
+    oldWord: '',
     numberWin: 0,
     numberLoss: 0,
     startText: "Press any key to get started!",
@@ -15,10 +27,12 @@ var hangman = {
     listGuess: [],
     listLettersGuessed: [],
 
-    // Choose Word
+    // Choose Word randomly and do not repeat the last word
     chooseWord: function() {
+        do {
         var index = Math.floor(Math.random() * this.listWords.length);
         this.currentWord = this.listWords[index];
+        } while (this.currentWord === this.oldWord);
         for (var i = 0; i < this.currentWord.length; i++) {
             if (this.currentWord[i] === ' ') {
                 this.listGuess.push('$');
@@ -63,13 +77,46 @@ var hangman = {
 
 // Output results to html
 var output = {
-    displayResults: function () {
-        document.querySelector("#winsOutput").innerHTML = hangman.numberWin;
-        document.querySelector("#lossesOutput").innerHTML = hangman.numberLoss;
-        document.querySelector("#currentWordOutput").innerHTML = currentGuessedWordDisplay;
-        document.querySelector("#guessesRemainingOutput").innerHTML = hangman.numberGuessesRemaining;
-        document.querySelector("#lettersGuessedOutput").innerHTML = hangman.listLettersGuessed;
+    // Display numbered results to html
+    displayResults: function() {
+        $('#winsOutput').html(hangman.numberWin);
+        $('#lossesOutput').html(hangman.numberLoss);
+        $('#currentWordOutput').html(currentGuessedWordDisplay);
+        $('#guessesRemainingOutput').html(hangman.numberGuessesRemaining);
+        $('#lettersGuessedOutput').html(hangman.listLettersGuessed);
+    },
+
+    // Display Hangman progress
+    displayActive: function(number) {
+        $('.active' + number).attr('src', 'assets/images/Hangman-Game-grey.png');
+    },
+
+    // Display Hangman when fail
+    displayFail: function() {
+        for (var iii = 9; iii > 0; iii--) {
+            $('.active' + iii).attr('src', 'assets/images/Hangman-Game-red.png');
+        }
+    },
+
+    // Display Hangman progress default
+    displayDefault: function() {
+        $('#winPhoto').css('display', 'none');
+        $('#lossPhoto').css('display', 'none');
+        $('.default').attr('src', 'assets/images/cloud.png');
+    },
+
+    // Display winning photo and text
+    displayWin: function() {
+        $('.row .col-sm-12 img').css('display', 'none');
+        $('#winPhoto').css('display', 'block');
+    },
+
+    // Display losing photo and text
+    displayLoss: function() {
+        $('.row .col-sm-12 img').css('display', 'none');
+        $('#lossPhoto').css('display', 'block');
     }
+
 };
 
 // Initialize script and output to html
@@ -92,22 +139,43 @@ document.onkeyup = function(event) {
 
     // Check if word guessed correctly within number of trys allowed, then reset if true
     if (currentGuessedWord === hangman.currentWord) {
-        console.log(hangman.successText);
         hangman.numberWin++;
+        hangman.oldWord = hangman.currentWord
         hangman.resetGame();
+        output.displayDefault();
     } 
 
     // Check if word guess failed and guesses remaining is 0, then reset if true
     if (currentGuessedWord !== hangman.currentWord && hangman.numberGuessesRemaining === 0) {
-        console.log(hangman.failText);
         hangman.numberLoss++;
+        hangman.oldWord = hangman.currentWord
         hangman.resetGame();
+        output.displayFail();
     }
+
+    // Check number of guesses left and output hangman section
+    if (hangman.numberGuessesRemaining === 9) {
+        output.displayActive(1);
+    } else if (hangman.numberGuessesRemaining === 8) {
+        output.displayActive(2);
+    } else if (hangman.numberGuessesRemaining === 7) {
+        output.displayActive(3);
+    } else if (hangman.numberGuessesRemaining === 6) {
+        output.displayActive(4);
+    } else if (hangman.numberGuessesRemaining === 5) {
+        output.displayActive(5);
+    } else if (hangman.numberGuessesRemaining === 4) {
+        output.displayActive(6);
+    } else if (hangman.numberGuessesRemaining === 3) {
+        output.displayActive(7);
+    } else if (hangman.numberGuessesRemaining === 2) {
+        output.displayActive(8);
+    } else if (hangman.numberGuessesRemaining === 1) {
+        output.displayActive(9);
+    }
+
 
     // Output results to html
     output.displayResults();
 
 }
-
-// Photo for Guessed Output
-// Optional Sound for Guessed Output

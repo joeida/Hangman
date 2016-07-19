@@ -15,3 +15,15 @@ body {
   height: 33px;
   width: 33px;
 }
+#play-again,
+#restart-game {
+  margin: 10px;
+}
+#winPhoto img {
+  height: 200px;
+  width: 200px;
+}
+#lossPhoto img {
+  height: 200px;
+  width: 200px;
+}
