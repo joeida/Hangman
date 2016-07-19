@@ -44,17 +44,30 @@ var hangman = {
 
     // Search Current Word for letter and return update Current Guess
     searchWord: function(userGuess) {
+
+        // Check if game is finished and return null value so input doesn't increment anymore
+        if (currentGuessedWord === hangman.currentWord) {
+            return;
+        } else if (currentGuessedWord !== hangman.currentWord && hangman.numberGuessesRemaining === 0) {
+            return;
+        }
+
+        // If letter matches, enter letter into current guess
         for (var ii = 0; ii < this.currentWord.length; ii++) {
             if (userGuess === this.currentWord.charAt(ii)) {
                 this.listGuess[ii] = userGuess;
             }
         }
         this.numberGuessesRemaining--;
+
+        // If letter already exists, imcrement number of guesses remaining
         if (this.listLettersGuessed.indexOf(userGuess) === -1) {
             this.listLettersGuessed.push(userGuess);
         } else {
             this.numberGuessesRemaining++
         }
+
+        // Insert spaces between letters for Display output
         this.currentGuess = this.listGuess.join(' ');
         return this.currentGuess;
     },
@@ -138,14 +151,14 @@ document.onkeyup = function(event) {
         currentGuessedWord = currentGuessedWordDisplay.replace(/\s/g,'');
     }
 
-    // Check if word guessed correctly within number of trys allowed, then reset if true
+    // Check if word guessed correctly within number of trys allowed, then increment win counter
     if (currentGuessedWord === hangman.currentWord) {
         hangman.numberWin++;
         hangman.oldWord = hangman.currentWord
         output.displayWin();
     } 
 
-    // Check if word guess failed and guesses remaining is 0, then reset if true
+    // Check if word guess failed and guesses remaining is 0, then increment loss counter
     if (currentGuessedWord !== hangman.currentWord && hangman.numberGuessesRemaining === 0) {
         hangman.numberLoss++;
         hangman.oldWord = hangman.currentWord

@@ -1,13 +1,9 @@
-body {
-
-}
-
 .page-header {
   text-align: center;
 }
 .page-header h1 {
   font-family: 'Candal', sans-serif;
-  /* color: yellow; */
+  color: yellow;
   font-size: 50px;
   font-weight: bold;
 }
