@@ -105,13 +105,13 @@ var output = {
         $('#winPhoto').css('display', 'none');
         $('#winText').css('display', 'none');
         $('#lossText').css('display', 'none');
-        $('.row .col-sm-12 img').css('display', 'inline-block');
+        $('.jumbotron .row .col-sm-12 img').css('display', 'inline-block');
         $('.default').attr('src', 'assets/images/cloud.png');
     },
 
     // Display winning photo and text
     displayWin: function() {
-        $('.row .col-sm-12 img').css('display', 'none');
+        $('.jumbotron .row .col-sm-12 img').css('display', 'none');
         $('#winPhoto').css('display', 'inline-block');
         $('#winText').css('display', 'inline-block');
         $('#winPhoto').html('<img src="assets/images/' + hangman.currentWord + '.png">');
