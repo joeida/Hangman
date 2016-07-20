@@ -23,6 +23,12 @@
   width: 33px;
 }
 
+#winsOutput,
+#lossesOutput,
+#guessesRemainingOutput,
+#lettersGuessedOutput {
+  font-size: 24px;
+}
 #currentWordOutput {
   font-size: 34px;
 }
@@ -63,8 +69,9 @@
   width: 25px;
 }
 #winPhoto img {
-  height: 300px;
-  width: 300px;
+  height: 325px;
+  width: 325px;
+  margin-left:15px;
 }
 
 }
@@ -86,6 +93,7 @@
 #winPhoto img {
   height: 500px;
   width: 500px;
+  margin-left: 40px;
 }
 
 }

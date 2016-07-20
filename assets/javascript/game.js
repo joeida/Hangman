@@ -89,7 +89,7 @@ var output = {
         $('#lossesOutput').html(hangman.numberLoss);
         $('#currentWordOutput').html(currentGuessedWordDisplay);
         $('#guessesRemainingOutput').html(hangman.numberGuessesRemaining);
-        $('#lettersGuessedOutput').html(hangman.listLettersGuessed);
+        $('#lettersGuessedOutput').html(hangman.listLettersGuessed.join(',&nbsp;'));
     },
 
     // Display Hangman progressive picture
