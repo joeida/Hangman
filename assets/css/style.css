@@ -1,3 +1,5 @@
+/* Header */
+
 .page-header {
   text-align: center;
 }
@@ -7,9 +9,15 @@
   font-size: 50px;
   font-weight: bold;
 }
+
+/* Game Output */
 .jumbotron .row .col-sm-12 img {
   height: 33px;
   width: 33px;
+}
+
+#currentWordOutput {
+  font-size: 34px;
 }
 #play-again,
 #restart-game {
@@ -18,6 +26,7 @@
 #winPhoto img {
   height: 400px;
   width: 400px;
+  margin: 0 auto;
 }
 #lossText {
   font-size: 30px;
@@ -26,4 +35,101 @@
 #winText {
   font-size: 30px;
   color: yellow;
+}
+
+/* --------------------------------------
+   Media Queries
+   -------------------------------------- */
+
+/* Phone */
+@media screen and (max-width: 611px) {
+
+.page-header h1 {
+  font-size: 35px;
+}
+.page-header h1 img {
+  height:50px;
+  width: 50px;
+}
+.jumbotron .row .col-sm-12 img {
+  height: 25px;
+  width: 25px;
+}
+#winPhoto img {
+  height: 300px;
+  width: 300px;
+}
+
+}
+
+/* Tablet */
+@media screen and (min-width: 600px) and (max-width: 767px) {
+
+.page-header h1 {
+  font-size: 45px;
+}
+.page-header h1 img {
+  height:60px;
+  width: 60px;
+}
+.jumbotron .row .col-sm-12 img {
+  height: 40px;
+  width: 40px;
+}
+#winPhoto img {
+  height: 500px;
+  width: 500px;
+}
+
+}
+
+/* Laptop */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+#subtitle {
+  font-size: 38px;
+}
+.jumbotron .row .col-sm-12 img {
+  height: 15px;
+  width: 15px;
+}
+#currentWordOutput {
+  font-size: 26px;
+}
+#winPhoto img {
+  height: 250px;
+  width: 250px;
+}
+#lossText {
+  font-size: 20px;
+  color: red;
+}
+#winText {
+  font-size: 20px;
+  color: yellow;
+}
+
+}
+
+/* large Screen */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+#subtitle {
+  font-size: 45px;
+}
+.jumbotron .row .col-sm-12 img {
+  height: 25px;
+  width: 25px;
+}
+#winPhoto img {
+  height: 350px;
+  width: 350px;
+}
+#lossText {
+  font-size: 20px;
+  color: red;
+}
+#winText {
+  font-size: 20px;
+  color: yellow;
+}
+
 }

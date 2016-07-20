@@ -3,17 +3,7 @@ var currentGuessedWord = '';
 var removeSpace = '';
 
 var hangman = {
-    listWords: ['pacman', 'tetris', 'galaga', 'frogger', 'mario bros', 'donkey kong', 'centipede', 'space invaders'],
-    winPictures: {
-        'pacman': '../images/pacman.jpg',
-        'tetris': '../images/tetris.jpg',
-        'galaga': '../images/galaga.jpg',
-        'frogger': '../images/frogger.jpg',
-        'mario bros': '../images/mario.png',
-        'donkey kong': '../images/kong.jpg',
-        'centipede': '../images/centipede.jpg',
-        'space invaders': '../images/space.jpg'
-    },
+    listWords: ['pacman', 'tetris', 'galaga', 'frogger', 'mario bros', 'donkey kong', 'centipede', 'space invaders', 'dig dug', 'zelda', 'contra', 'doom', 'paper boy', 'pong', 'pitfall', 'street fighter'],
     currentWord: '',
     currentGuess: '',
     oldWord: '',
@@ -113,6 +103,7 @@ var output = {
             $('.active' + iii).attr('src', 'assets/images/Hangman-Game-red.png');
         }
         $('#lossText').css('display', 'inline-block');
+        $('#currentWordOutput').css('color', 'red');
         $('#lossText').html(hangman.failText);
     },
 
@@ -121,6 +112,7 @@ var output = {
         $('#winPhoto').css('display', 'none');
         $('#winText').css('display', 'none');
         $('#lossText').css('display', 'none');
+        $('#currentWordOutput').css('color', '');
         $('.jumbotron .row .col-sm-12 img').css('display', 'inline-block');
         $('.default').attr('src', 'assets/images/cloud.png');
     },
@@ -130,6 +122,7 @@ var output = {
         $('.jumbotron .row .col-sm-12 img').css('display', 'none');
         $('#winPhoto').css('display', 'inline-block');
         $('#winText').css('display', 'inline-block');
+        $('#currentWordOutput').css('color', 'yellow');
         $('#winPhoto').html('<img src="assets/images/' + hangman.currentWord + '.png">');
         $('#winText').html(hangman.successText);
     }
