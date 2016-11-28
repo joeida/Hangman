@@ -4,7 +4,7 @@
 * Create Hangman game using HTML, CSS, Javascript.
 
 ### Objective
-* Use HTML, CSS, Javascript to create a basic front end Hangman game.
+* Demonstrate the use of HTML, CSS, and Javascript in creating a basic front end Hangman game.
   1. Keep track of game wins and losses.
   2. Keep track of guesses remaining, word, and letters.
   3. Create game meter to show status of current game.
