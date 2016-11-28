@@ -1,4 +1,4 @@
-# Hangman
+# Hangman Game
 
 ### Overview
 * Create Hangman game using HTML, CSS, Javascript.
@@ -15,4 +15,4 @@
 <img width="576" alt="hangman" src="https://cloud.githubusercontent.com/assets/18523345/20645970/3cd9f178-b424-11e6-9662-083b151b3b07.png">
 
 ### Links
-[Hangman](https://joeida.github.io/Hangman)
+[Hangman Game](https://joeida.github.io/Hangman)
